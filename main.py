@@ -86,7 +86,7 @@ def get_db():
         db.close()
 
 # Secret key for JWT (in production, use a proper secret management system)
-SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = os.environ.get("SECRET_KEY", "dev")
 if not SECRET_KEY:
     raise ValueError("SECRET_KEY is not set")
 ALGORITHM = "HS256"
