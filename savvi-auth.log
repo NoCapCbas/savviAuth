@@ -212,3 +212,4 @@
 2024-09-18 21:52:05,381 - savvi-auth - INFO - Request: testclient GET http://testserver/health
 2024-09-18 21:52:05,385 - savvi-auth - INFO - Response: 200 0.0007946491241455078
 2024-09-18 21:52:05,385 - savvi-auth - INFO - Response: 200 0.0007946491241455078
+2024-09-18 21:59:29,028 - savvi-auth - INFO - Seeding database...

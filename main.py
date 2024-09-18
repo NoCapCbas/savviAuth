@@ -104,7 +104,7 @@ def lifespan(app: FastAPI):
     app.version = "0.0.1"
     app.logger = setup_logger()
 
-        if ENV == "dev":
+    if ENV == "dev":
         app.logger.info("Seeding database...")
         seed_db(get_db())
 
