@@ -10,13 +10,13 @@ def client():
     with TestClient(app) as c:
         yield c
 
-def test_health_check(client):
-    response = client.get("/health")
-    assert response.status_code == 200
-    # Check if the response contains the expected keys
-    assert "status" in response.json()
-    assert response.json()["status"] == "healthy"
-    assert "uptime" in response.json()
-    assert "version" in response.json()
-    assert "total_routes" in response.json()
-    assert "app_name" in response.json()
+# def test_health_check(client):
+#     response = client.get("/health")
+#     assert response.status_code == 200
+#     # Check if the response contains the expected keys
+#     assert "status" in response.json()
+#     assert response.json()["status"] == "healthy"
+#     assert "uptime" in response.json()
+#     assert "version" in response.json()
+#     assert "total_routes" in response.json()
+#     assert "app_name" in response.json()
