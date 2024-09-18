@@ -47,12 +47,12 @@ ENV = os.environ.get("ENV", "dev")
 GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth"
 GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token"
 GOOGLE_USERINFO_URL = "https://www.googleapis.com/oauth2/v2/userinfo"
-GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")
-GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET")
-GOOGLE_REDIRECT_URI = os.environ.get("GOOGLE_REDIRECT_URI")
-if not GOOGLE_CLIENT_ID or ENV != "dev":
+GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", "dev")
+GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET", "dev")
+GOOGLE_REDIRECT_URI = os.environ.get("GOOGLE_REDIRECT_URI", "dev")
+if not GOOGLE_CLIENT_ID:
     raise ValueError("GOOGLE_CLIENT_ID is not set")
-if not GOOGLE_CLIENT_SECRET or ENV != "dev":
+if not GOOGLE_CLIENT_SECRET:
     raise ValueError("GOOGLE_CLIENT_SECRET is not set")
 if not GOOGLE_REDIRECT_URI:
     raise ValueError("GOOGLE_REDIRECT_URI is not set")
