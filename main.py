@@ -1,15 +1,21 @@
-from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi import FastAPI, Depends, HTTPException, status, Request
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from urllib.parse import urlencode
+from fastapi.responses import RedirectResponse
 from pydantic import BaseModel, EmailStr, Field
 from passlib.context import CryptContext
+from fastapi.middleware.cors import CORSMiddleware
 from jose import JWTError, jwt
 from datetime import datetime, timedelta, timezone
 from sqlalchemy import create_engine, Column, Integer, String, Boolean, text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
+from starlette.middleware.sessions import SessionMiddleware
+import httpx
 import time
 import os
 import logging
+from authlib.integrations.starlette_client import OAuth, OAuthError
 
 # Logger setup
 def setup_logger():
@@ -34,6 +40,30 @@ def setup_logger():
     logger.addHandler(file_handler)
 
     return logger
+
+# Google OAuth setup
+GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth"
+GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token"
+GOOGLE_USERINFO_URL = "https://www.googleapis.com/oauth2/v2/userinfo"
+GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")
+GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET")
+GOOGLE_REDIRECT_URI = os.environ.get("GOOGLE_REDIRECT_URI")
+if not GOOGLE_CLIENT_ID:
+    raise ValueError("GOOGLE_CLIENT_ID is not set")
+if not GOOGLE_CLIENT_SECRET:
+    raise ValueError("GOOGLE_CLIENT_SECRET is not set")
+if not GOOGLE_REDIRECT_URI:
+    raise ValueError("GOOGLE_REDIRECT_URI is not set")
+oauth = OAuth()
+oauth.register(
+    name='google',
+    server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
+    client_id=GOOGLE_CLIENT_ID,
+    client_secret=GOOGLE_CLIENT_SECRET,
+    client_kwargs={
+        'scope': 'openid email profile',
+    }
+)
 
 # Database setup
 DB_USER = os.environ.get("DB_USER")
@@ -80,6 +110,31 @@ def lifespan(app: FastAPI):
     yield
 
 app = FastAPI(lifespan=lifespan)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+app.add_middleware(
+    SessionMiddleware,
+    secret_key=SECRET_KEY,
+)
+
+# log request and response
+@app.middleware("http")
+async def log_request_and_response(request: Request, call_next):
+    """
+    Log request and response
+    """
+    ip = request.client.host
+    app.logger.info(f"Request: {ip} {request.method} {request.url}")
+    start_time = time.time()
+    response = await call_next(request)
+    process_time = time.time() - start_time
+    app.logger.info(f"Response: {response.status_code} {process_time}")
+    return response
 
 # User model
 class User(Base):
@@ -181,6 +236,71 @@ async def get_current_active_user(current_user: User = Depends(get_current_user)
     if current_user.disabled:
         raise HTTPException(status_code=400, detail="Inactive user")
     return current_user
+
+@app.get("/login/google")
+async def login_google(request: Request):
+    params = {
+        "client_id": GOOGLE_CLIENT_ID,
+        "response_type": "code",
+        "scope": "openid email profile",
+        "redirect_uri": GOOGLE_REDIRECT_URI,
+        "access_type": "offline",
+        "prompt": "consent",
+    }
+    url = f"{GOOGLE_AUTH_URL}?{urlencode(params)}"
+    return RedirectResponse(url)
+
+@app.get('/auth/google/callback')
+async def auth_google_callback(request: Request, db: Session = Depends(get_db)):
+    """
+    Google OAuth callback
+    """
+    async with httpx.AsyncClient() as client:
+        try:
+            app.logger.info(f"Auth callback: {request.method} {request.url}")
+            code = request.query_params.get('code')
+            if not code:
+                raise HTTPException(status_code=400, detail="Code not provided by Google")
+
+            token_params = {
+                'code': code,
+                'grant_type': 'authorization_code',
+                'redirect_uri': GOOGLE_REDIRECT_URI,
+                'client_id': GOOGLE_CLIENT_ID,
+                'client_secret': GOOGLE_CLIENT_SECRET,
+            }
+            token_response = await client.post(GOOGLE_TOKEN_URL, data=token_params)
+
+            if token_response.status_code != 200:
+                raise HTTPException(status_code=400, detail="Failed to get access token from Google")
+
+            token_data = token_response.json()
+            user_info_response = await client.get(GOOGLE_USERINFO_URL, headers={'Authorization': f'Bearer {token_data["access_token"]}'})
+
+            # get user info
+            user_info = user_info_response.json()
+            email = user_info.get('email')
+            if not email:
+                raise HTTPException(status_code=400, detail="Email not provided by Google")
+
+            db_user = get_user(db, email)
+            if not db_user:
+                # Create new user if not exists
+                db_user = User(email=email, first_name=user_info.get('given_name', ''), last_name=user_info.get('family_name', ''), google_id=user_info.get('sub'))
+                db.add(db_user)
+                db.commit()
+                db.refresh(db_user)
+
+            # Create access token
+            access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+            access_token = create_access_token(
+                data={"sub": db_user.email}, expires_delta=access_token_expires
+            )
+
+            return {"access_token": access_token, "token_type": "bearer"}
+        except Exception as e:
+            app.logger.error(f"Error in auth_google_callback: {e}")
+            raise HTTPException(status_code=500, detail="Internal server error")
 
 @app.post("/register", response_model=UserResponse)
 async def register(user: UserRegistration, db: Session = Depends(get_db)):

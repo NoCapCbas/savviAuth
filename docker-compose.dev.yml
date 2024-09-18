@@ -15,7 +15,8 @@ services:
       context: .
       dockerfile: dockerfile.dev
     env_file:
-      - .env.dev
+      - .env.prod
+      - .env.dev # second because it overrides the first
     ports:
       - "8000:8000"
     volumes:

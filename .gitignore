@@ -1,4 +1,5 @@
 postgres_data
 __pycache__
-.log
+*.log
 .DS_Store
+.env.prod

@@ -3,3 +3,195 @@
 2024-09-18 01:54:34,832 - savvi-auth - INFO - Seeding database...
 2024-09-18 01:54:55,024 - savvi-auth - INFO - Seeding database...
 2024-09-18 01:55:52,785 - savvi-auth - INFO - Seeding database...
+2024-09-18 09:13:33,293 - savvi-auth - INFO - Seeding database...
+2024-09-18 09:33:44,794 - savvi-auth - INFO - Seeding database...
+2024-09-18 09:40:50,318 - savvi-auth - INFO - Seeding database...
+2024-09-18 09:41:17,723 - savvi-auth - INFO - Seeding database...
+2024-09-18 09:41:21,685 - savvi-auth - INFO - Seeding database...
+2024-09-18 09:43:04,123 - savvi-auth - INFO - Seeding database...
+2024-09-18 09:44:29,282 - savvi-auth - INFO - Seeding database...
+2024-09-18 09:45:28,368 - savvi-auth - INFO - Seeding database...
+2024-09-18 09:54:25,235 - savvi-auth - INFO - Seeding database...
+2024-09-18 09:54:42,733 - savvi-auth - INFO - Seeding database...
+2024-09-18 10:12:32,565 - savvi-auth - INFO - Seeding database...
+2024-09-18 10:12:53,360 - savvi-auth - INFO - Seeding database...
+2024-09-18 10:13:16,965 - savvi-auth - INFO - Seeding database...
+2024-09-18 10:14:37,075 - savvi-auth - INFO - Request: GET http://localhost:8000/
+2024-09-18 10:14:37,078 - savvi-auth - INFO - Response: 404 0.0014872550964355469
+2024-09-18 10:14:50,211 - savvi-auth - INFO - Request: GET http://localhost:8000/docs
+2024-09-18 10:14:50,222 - savvi-auth - INFO - Response: 200 0.009477853775024414
+2024-09-18 10:14:50,724 - savvi-auth - INFO - Request: GET http://localhost:8000/openapi.json
+2024-09-18 10:14:50,741 - savvi-auth - INFO - Response: 200 0.015350580215454102
+2024-09-18 10:14:52,524 - savvi-auth - INFO - Request: GET http://localhost:8000/login/google
+2024-09-18 10:14:52,681 - savvi-auth - INFO - Response: 302 0.15420937538146973
+2024-09-18 10:14:56,556 - savvi-auth - INFO - Request: GET http://localhost:8000/login/google
+2024-09-18 10:14:56,609 - savvi-auth - INFO - Response: 302 0.051252126693725586
+2024-09-18 10:14:56,917 - savvi-auth - INFO - Request: GET http://localhost:8000/auth/google/callback?state=RiiHT2lvoGXw2HvMkaoAmbORGn7n16&code=4%2F0AQlEd8yJLJEgoUGFzrAOhUb2Lz6iSp9E3dZOy-9s9p8nZN7CunlHNdFXuI91UU907CZOUQ&scope=email+profile+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=0&prompt=none
+2024-09-18 10:18:32,106 - savvi-auth - INFO - Seeding database...
+2024-09-18 10:18:43,039 - savvi-auth - INFO - Request: GET http://localhost:8000/auth/google/callback?state=RiiHT2lvoGXw2HvMkaoAmbORGn7n16&code=4%2F0AQlEd8yJLJEgoUGFzrAOhUb2Lz6iSp9E3dZOy-9s9p8nZN7CunlHNdFXuI91UU907CZOUQ&scope=email+profile+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=0&prompt=none
+2024-09-18 10:18:43,402 - savvi-auth - INFO - Response: 400 0.3540008068084717
+2024-09-18 10:18:58,029 - savvi-auth - INFO - Request: GET http://localhost:8000/auth/google/callback?state=BXHG7YepgNsLmq0qiOpptHtP1sk7ac&code=4%2F0AQlEd8wZWdRTL-HhytQiObhN2YpT6yizXww0v8t00WBTssxfI9DAie7RdniIIOqA-AexHQ&scope=email+profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=0&prompt=consent
+2024-09-18 10:18:58,034 - savvi-auth - INFO - Response: 400 0.0025947093963623047
+2024-09-18 10:18:59,359 - savvi-auth - INFO - Request: GET http://localhost:8000/auth/google/callback
+2024-09-18 10:18:59,363 - savvi-auth - INFO - Response: 400 0.002104520797729492
+2024-09-18 10:19:05,095 - savvi-auth - INFO - Request: GET http://localhost:8000/auth/google/callback?state=BXHG7YepgNsLmq0qiOpptHtP1sk7ac&code=4%2F0AQlEd8wZWdRTL-HhytQiObhN2YpT6yizXww0v8t00WBTssxfI9DAie7RdniIIOqA-AexHQ&scope=email+profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=0&prompt=consent
+2024-09-18 10:19:05,099 - savvi-auth - INFO - Response: 400 0.0015096664428710938
+2024-09-18 10:19:09,270 - savvi-auth - INFO - Request: GET http://localhost:8000/login/google/
+2024-09-18 10:19:09,273 - savvi-auth - INFO - Response: 307 0.0008783340454101562
+2024-09-18 10:19:09,289 - savvi-auth - INFO - Request: GET http://localhost:8000/login/google
+2024-09-18 10:19:09,328 - savvi-auth - INFO - Response: 302 0.03614091873168945
+2024-09-18 10:19:09,683 - savvi-auth - INFO - Request: GET http://localhost:8000/auth/google/callback?state=HLSMgEUgIq5W5Cp1aCLg3P7IZLhfKX&code=4%2F0AQlEd8y-_6xHrz4skoUIaphJa_BhMiW1AmTZcXnl8aK29DpPCz3778LpX1t-GiDZeR9t0w&scope=email+profile+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=0&prompt=none
+2024-09-18 10:19:25,285 - savvi-auth - INFO - Seeding database...
+2024-09-18 10:19:29,173 - savvi-auth - INFO - Request: GET http://localhost:8000/auth/google/callback?state=HLSMgEUgIq5W5Cp1aCLg3P7IZLhfKX&code=4%2F0AQlEd8y-_6xHrz4skoUIaphJa_BhMiW1AmTZcXnl8aK29DpPCz3778LpX1t-GiDZeR9t0w&scope=email+profile+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=0&prompt=none
+2024-09-18 10:19:29,453 - savvi-auth - INFO - Response: 400 0.2781836986541748
+2024-09-18 10:19:51,328 - savvi-auth - INFO - Request: GET http://localhost:8000/login/google
+2024-09-18 10:19:51,379 - savvi-auth - INFO - Response: 302 0.049779653549194336
+2024-09-18 10:19:51,619 - savvi-auth - INFO - Request: GET http://localhost:8000/auth/google/callback?state=g4a4ffkumvTLjJvG1GbIuwhH2cnbHa&code=4%2F0AQlEd8yL0XhAgqkjqjzC0CgzHgMVsQx4GoAmzTypxtIVrZleiCaw1gWhcdXPcqCFzE8jXA&scope=email+profile+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=0&prompt=none
+2024-09-18 10:20:04,483 - savvi-auth - INFO - Request: GET http://localhost:8000/login/google
+2024-09-18 10:20:04,526 - savvi-auth - INFO - Response: 302 0.04075884819030762
+2024-09-18 10:20:04,810 - savvi-auth - INFO - Request: GET http://localhost:8000/auth/google/callback?state=a5BUwkV3A1nUM1SZ7FA9CUMGEOIzGm&code=4%2F0AQlEd8zlE78DSIiUIpspFe1DmOlqSMZUkLXPZsp__DdEdKDWy2Kt95K2f4KbYyAF7EJQpg&scope=email+profile+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=0&prompt=none
+2024-09-18 10:21:40,123 - savvi-auth - INFO - Seeding database...
+2024-09-18 10:23:19,767 - savvi-auth - INFO - Seeding database...
+2024-09-18 10:23:27,569 - savvi-auth - INFO - Seeding database...
+2024-09-18 10:23:32,858 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/
+2024-09-18 10:23:32,862 - savvi-auth - INFO - Response: 404 0.0017554759979248047
+2024-09-18 10:23:35,356 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/docs
+2024-09-18 10:23:35,359 - savvi-auth - INFO - Response: 200 0.0012962818145751953
+2024-09-18 10:23:35,566 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/openapi.json
+2024-09-18 10:23:35,580 - savvi-auth - INFO - Response: 200 0.012674331665039062
+2024-09-18 10:23:37,857 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/docs
+2024-09-18 10:23:37,862 - savvi-auth - INFO - Response: 200 0.001995086669921875
+2024-09-18 10:23:37,931 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/openapi.json
+2024-09-18 10:23:37,934 - savvi-auth - INFO - Response: 200 0.0007524490356445312
+2024-09-18 10:23:38,866 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/login/google
+2024-09-18 10:23:39,059 - savvi-auth - INFO - Response: 302 0.19175386428833008
+2024-09-18 10:23:42,254 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/login/google
+2024-09-18 10:23:42,301 - savvi-auth - INFO - Response: 302 0.04497933387756348
+2024-09-18 10:23:42,565 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/auth/google/callback?state=40OZZA4V6OK2v7aUakN7V9JCTV0SUK&code=4%2F0AQlEd8z6pJZD7X7N9zfktNVOJHuGOVBBqfswQWSbichVKHVlBLcNYTrPxDPAbezYJ3tCCQ&scope=email+profile+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=0&prompt=none
+2024-09-18 10:23:42,569 - savvi-auth - INFO - Auth callback: GET http://localhost:8000/auth/google/callback?state=40OZZA4V6OK2v7aUakN7V9JCTV0SUK&code=4%2F0AQlEd8z6pJZD7X7N9zfktNVOJHuGOVBBqfswQWSbichVKHVlBLcNYTrPxDPAbezYJ3tCCQ&scope=email+profile+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=0&prompt=none
+2024-09-18 10:26:36,094 - savvi-auth - INFO - Seeding database...
+2024-09-18 10:26:42,253 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/
+2024-09-18 10:26:42,256 - savvi-auth - INFO - Response: 404 0.001283884048461914
+2024-09-18 10:26:45,615 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/
+2024-09-18 10:26:45,618 - savvi-auth - INFO - Response: 404 0.0011708736419677734
+2024-09-18 10:26:47,385 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/docs
+2024-09-18 10:26:47,388 - savvi-auth - INFO - Response: 200 0.001577615737915039
+2024-09-18 10:26:47,763 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/openapi.json
+2024-09-18 10:26:47,784 - savvi-auth - INFO - Response: 200 0.016015052795410156
+2024-09-18 10:26:49,982 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/docs
+2024-09-18 10:26:49,989 - savvi-auth - INFO - Response: 200 0.004685878753662109
+2024-09-18 10:26:50,085 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/openapi.json
+2024-09-18 10:26:50,090 - savvi-auth - INFO - Response: 200 0.002847433090209961
+2024-09-18 10:26:50,449 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/login/google
+2024-09-18 10:26:50,639 - savvi-auth - INFO - Response: 302 0.18805789947509766
+2024-09-18 10:26:50,993 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/auth/google/callback?state=jBeY7SbYMMmVNTqkBXL5CWGVuxuxgM&code=4%2F0AQlEd8yNW8tkJI7X2vrcDjLxan4PXG-mDIePKmqUhf78Ij0J9mUQTDpvcijnKf9xfTW4qg&scope=email+profile+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&authuser=0&prompt=none
+2024-09-18 10:26:50,996 - savvi-auth - INFO - Auth callback: GET http://localhost:8000/auth/google/callback?state=jBeY7SbYMMmVNTqkBXL5CWGVuxuxgM&code=4%2F0AQlEd8yNW8tkJI7X2vrcDjLxan4PXG-mDIePKmqUhf78Ij0J9mUQTDpvcijnKf9xfTW4qg&scope=email+profile+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&authuser=0&prompt=none
+2024-09-18 10:30:05,646 - savvi-auth - INFO - Seeding database...
+2024-09-18 10:30:44,277 - savvi-auth - INFO - Seeding database...
+2024-09-18 10:34:49,881 - savvi-auth - INFO - Seeding database...
+2024-09-18 10:37:18,861 - savvi-auth - INFO - Seeding database...
+2024-09-18 10:37:52,911 - savvi-auth - INFO - Seeding database...
+2024-09-18 10:38:37,727 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/
+2024-09-18 10:38:37,732 - savvi-auth - INFO - Response: 404 0.002268552780151367
+2024-09-18 10:38:41,232 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/docs
+2024-09-18 10:38:41,235 - savvi-auth - INFO - Response: 200 0.0009176731109619141
+2024-09-18 10:38:41,423 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/openapi.json
+2024-09-18 10:38:41,439 - savvi-auth - INFO - Response: 200 0.013896703720092773
+2024-09-18 10:38:44,946 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/login/google
+2024-09-18 10:38:44,949 - savvi-auth - INFO - Login Google: GET http://localhost:8000/login/google http://localhost:8000/auth/google/callback
+2024-09-18 10:38:45,164 - savvi-auth - INFO - Response: 302 0.21593213081359863
+2024-09-18 10:38:45,541 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/auth/google/callback?state=G4RLplMyxQk1qKLsT3Fbv3zka6Ykpk&code=4%2F0AQlEd8wgQNGJSr_KuGyWfVxcFotwNaOJbhx-W9fuC5CHK8RJRBZsnHSsQuZCzyvwGA3-IA&scope=email+profile+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=0&prompt=none
+2024-09-18 10:38:45,547 - savvi-auth - INFO - Auth callback: GET http://localhost:8000/auth/google/callback?state=G4RLplMyxQk1qKLsT3Fbv3zka6Ykpk&code=4%2F0AQlEd8wgQNGJSr_KuGyWfVxcFotwNaOJbhx-W9fuC5CHK8RJRBZsnHSsQuZCzyvwGA3-IA&scope=email+profile+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=0&prompt=none
+2024-09-18 10:39:20,947 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/login/google
+2024-09-18 10:39:20,955 - savvi-auth - INFO - Login Google: GET http://localhost:8000/login/google http://localhost:8000/auth/google/callback
+2024-09-18 10:39:21,010 - savvi-auth - INFO - Response: 302 0.05635428428649902
+2024-09-18 10:39:21,291 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/auth/google/callback?state=MklIdvFs35kFoHLxBQLU4uDpmQgjxv&code=4%2F0AQlEd8xUo3qZe7y8tyZkvQzgFn462Dqv2IYeQp0H0CmO6KG6xgQF9kCVys1W9QLLQrLd8w&scope=email+profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+openid&authuser=0&prompt=none
+2024-09-18 10:39:21,294 - savvi-auth - INFO - Auth callback: GET http://localhost:8000/auth/google/callback?state=MklIdvFs35kFoHLxBQLU4uDpmQgjxv&code=4%2F0AQlEd8xUo3qZe7y8tyZkvQzgFn462Dqv2IYeQp0H0CmO6KG6xgQF9kCVys1W9QLLQrLd8w&scope=email+profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+openid&authuser=0&prompt=none
+2024-09-18 10:40:03,697 - savvi-auth - INFO - Seeding database...
+2024-09-18 10:40:18,330 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/
+2024-09-18 10:40:18,334 - savvi-auth - INFO - Response: 404 0.002185821533203125
+2024-09-18 10:40:21,144 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/docs
+2024-09-18 10:40:21,147 - savvi-auth - INFO - Response: 200 0.0008640289306640625
+2024-09-18 10:40:21,260 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/openapi.json
+2024-09-18 10:40:21,274 - savvi-auth - INFO - Response: 200 0.011925458908081055
+2024-09-18 10:41:24,559 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/login/google
+2024-09-18 10:41:24,567 - savvi-auth - INFO - Login Google: method: GET url: http://localhost:8000/login/google redirect_uri: http://localhost:8000/auth/google/callback
+2024-09-18 10:41:24,747 - savvi-auth - INFO - Response: 302 0.18143653869628906
+2024-09-18 10:41:25,030 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/auth/google/callback?state=j0EJDLFXXneoiBsHiQefy0jG7Kwa91&code=4%2F0AQlEd8zJcxms81Hvdr5f8fWeTe-34P-3RM2-9i5ijD6NH7cZ-lwyFUNqTrlzYI9tnEqh-Q&scope=email+profile+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=0&prompt=none
+2024-09-18 10:41:25,034 - savvi-auth - INFO - Auth callback: GET http://localhost:8000/auth/google/callback?state=j0EJDLFXXneoiBsHiQefy0jG7Kwa91&code=4%2F0AQlEd8zJcxms81Hvdr5f8fWeTe-34P-3RM2-9i5ijD6NH7cZ-lwyFUNqTrlzYI9tnEqh-Q&scope=email+profile+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=0&prompt=none
+2024-09-18 10:44:12,326 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/
+2024-09-18 10:44:12,329 - savvi-auth - INFO - Response: 404 0.0012280941009521484
+2024-09-18 10:44:15,961 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/docs
+2024-09-18 10:44:15,964 - savvi-auth - INFO - Response: 200 0.0008220672607421875
+2024-09-18 10:44:16,200 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/openapi.json
+2024-09-18 10:44:16,204 - savvi-auth - INFO - Response: 200 0.001577615737915039
+2024-09-18 10:44:18,691 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/login/google
+2024-09-18 10:44:18,693 - savvi-auth - INFO - Login Google: method: GET url: http://localhost:8000/login/google redirect_uri: http://localhost:8000/auth/google/callback
+2024-09-18 10:44:18,733 - savvi-auth - INFO - Response: 302 0.0409696102142334
+2024-09-18 10:44:30,797 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/auth/google/callback?state=6d3WN8zYjfaGw6efBr0almYWvH2lGq&code=4%2F0AQlEd8z8267laSNmxfrE83J0xjQiNb-5CxP886Wd_h4D5BS0DDmjIqMdScMKUPbdizBIgA&scope=email+profile+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=0&prompt=consent
+2024-09-18 10:44:30,800 - savvi-auth - INFO - Auth callback: GET http://localhost:8000/auth/google/callback?state=6d3WN8zYjfaGw6efBr0almYWvH2lGq&code=4%2F0AQlEd8z8267laSNmxfrE83J0xjQiNb-5CxP886Wd_h4D5BS0DDmjIqMdScMKUPbdizBIgA&scope=email+profile+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=0&prompt=consent
+2024-09-18 10:46:27,809 - savvi-auth - INFO - Seeding database...
+2024-09-18 10:46:45,607 - savvi-auth - INFO - Seeding database...
+2024-09-18 10:47:32,938 - savvi-auth - INFO - Seeding database...
+2024-09-18 10:47:53,528 - savvi-auth - INFO - Seeding database...
+2024-09-18 10:48:24,863 - savvi-auth - INFO - Seeding database...
+2024-09-18 10:48:49,379 - savvi-auth - INFO - Seeding database...
+2024-09-18 10:50:40,046 - savvi-auth - INFO - Seeding database...
+2024-09-18 10:51:02,928 - savvi-auth - INFO - Seeding database...
+2024-09-18 10:55:26,551 - savvi-auth - INFO - Seeding database...
+2024-09-18 10:55:28,781 - savvi-auth - INFO - Seeding database...
+2024-09-18 10:56:05,429 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/
+2024-09-18 10:56:05,442 - savvi-auth - INFO - Response: 404 0.008465766906738281
+2024-09-18 10:56:06,889 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/docs
+2024-09-18 10:56:06,892 - savvi-auth - INFO - Response: 200 0.0013556480407714844
+2024-09-18 10:56:07,133 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/openapi.json
+2024-09-18 10:56:07,154 - savvi-auth - INFO - Response: 200 0.018117427825927734
+2024-09-18 10:56:08,296 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/login/google
+2024-09-18 10:56:08,302 - savvi-auth - INFO - Response: 307 0.0025479793548583984
+2024-09-18 10:56:24,741 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/login/google
+2024-09-18 10:56:24,745 - savvi-auth - INFO - Response: 307 0.002233266830444336
+2024-09-18 10:58:55,287 - savvi-auth - INFO - Seeding database...
+2024-09-18 10:59:28,498 - savvi-auth - INFO - Seeding database...
+2024-09-18 10:59:43,071 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/
+2024-09-18 10:59:43,075 - savvi-auth - INFO - Response: 404 0.0019028186798095703
+2024-09-18 10:59:44,876 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/docs
+2024-09-18 10:59:44,879 - savvi-auth - INFO - Response: 200 0.0011258125305175781
+2024-09-18 10:59:45,042 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/openapi.json
+2024-09-18 10:59:45,057 - savvi-auth - INFO - Response: 200 0.013212442398071289
+2024-09-18 10:59:46,856 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/login/google
+2024-09-18 10:59:46,859 - savvi-auth - INFO - Response: 307 0.00115203857421875
+2024-09-18 10:59:50,524 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/login/google
+2024-09-18 10:59:50,528 - savvi-auth - INFO - Response: 307 0.0019719600677490234
+2024-09-18 10:59:55,550 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/auth/google/callback?code=4%2F0AQlEd8yt3zKcfjG4QrnAV4L_lUdDBZiVQ3DqID3HroV5uG3OabQNvEnh4zBvOn1LQZ6huQ&scope=email+profile+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=0&prompt=consent
+2024-09-18 10:59:55,554 - savvi-auth - INFO - Auth callback: GET http://localhost:8000/auth/google/callback?code=4%2F0AQlEd8yt3zKcfjG4QrnAV4L_lUdDBZiVQ3DqID3HroV5uG3OabQNvEnh4zBvOn1LQZ6huQ&scope=email+profile+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=0&prompt=consent
+2024-09-18 10:59:55,557 - savvi-auth - ERROR - Error in auth_google_callback: name 'httpx' is not defined
+2024-09-18 10:59:55,559 - savvi-auth - INFO - Response: 500 0.007151365280151367
+2024-09-18 11:01:04,191 - savvi-auth - INFO - Seeding database...
+2024-09-18 11:01:31,396 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/
+2024-09-18 11:01:31,399 - savvi-auth - INFO - Response: 404 0.0021228790283203125
+2024-09-18 11:01:34,073 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/docs
+2024-09-18 11:01:34,077 - savvi-auth - INFO - Response: 200 0.003304719924926758
+2024-09-18 11:01:34,262 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/openapi.json
+2024-09-18 11:01:34,276 - savvi-auth - INFO - Response: 200 0.01178884506225586
+2024-09-18 11:01:35,965 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/login/google
+2024-09-18 11:01:35,970 - savvi-auth - INFO - Response: 307 0.002702474594116211
+2024-09-18 11:01:41,519 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/auth/google/callback?code=4%2F0AQlEd8yaBTcALpNEt98X5mbK8lX1s8ZjBoQcFKSg8DLImxof3cnAd69TGb5zT4CBilt0Nw&scope=email+profile+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=0&prompt=consent
+2024-09-18 11:01:41,523 - savvi-auth - INFO - Auth callback: GET http://localhost:8000/auth/google/callback?code=4%2F0AQlEd8yaBTcALpNEt98X5mbK8lX1s8ZjBoQcFKSg8DLImxof3cnAd69TGb5zT4CBilt0Nw&scope=email+profile+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=0&prompt=consent
+2024-09-18 11:01:41,732 - savvi-auth - ERROR - Error in auth_google_callback: Cannot send a request, as the client has been closed.
+2024-09-18 11:01:41,737 - savvi-auth - INFO - Response: 500 0.216292142868042
+2024-09-18 11:02:55,251 - savvi-auth - INFO - Seeding database...
+2024-09-18 11:03:02,359 - savvi-auth - INFO - Seeding database...
+2024-09-18 11:04:07,730 - savvi-auth - INFO - Seeding database...
+2024-09-18 11:04:20,809 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/
+2024-09-18 11:04:20,816 - savvi-auth - INFO - Response: 404 0.003129243850708008
+2024-09-18 11:04:22,514 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/docs
+2024-09-18 11:04:22,518 - savvi-auth - INFO - Response: 200 0.001313924789428711
+2024-09-18 11:04:22,705 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/openapi.json
+2024-09-18 11:04:22,725 - savvi-auth - INFO - Response: 200 0.01574873924255371
+2024-09-18 11:04:23,988 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/login/google
+2024-09-18 11:04:23,990 - savvi-auth - INFO - Response: 307 0.0009641647338867188
+2024-09-18 11:04:30,233 - savvi-auth - INFO - Request: 172.21.0.1 GET http://localhost:8000/auth/google/callback?code=4%2F0AQlEd8xgGgaR1MLSdg5BxEhCuxH_eo8x86zApme4b9pBAysTVzNdw9p7ZMpu3zS40kYodA&scope=email+profile+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=0&prompt=consent
+2024-09-18 11:04:30,271 - savvi-auth - INFO - Auth callback: GET http://localhost:8000/auth/google/callback?code=4%2F0AQlEd8xgGgaR1MLSdg5BxEhCuxH_eo8x86zApme4b9pBAysTVzNdw9p7ZMpu3zS40kYodA&scope=email+profile+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=0&prompt=consent
+2024-09-18 11:04:30,645 - savvi-auth - INFO - Response: 200 0.40952396392822266
+2024-09-18 11:05:51,448 - savvi-auth - INFO - Seeding database...
+2024-09-18 11:06:08,297 - savvi-auth - INFO - Seeding database...
