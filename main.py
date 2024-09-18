@@ -41,7 +41,7 @@ def setup_logger():
 
     return logger
 
-ENV = os.environ.get("ENV")
+ENV = os.environ.get("ENV", "dev")
 
 # Google OAuth setup
 GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth"
