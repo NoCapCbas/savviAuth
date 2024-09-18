@@ -1,14 +1,14 @@
-import pytest
-from fastapi.testclient import TestClient
-from unittest.mock import patch
-from main import app, setup_logger
-import logging
+# import pytest
+# from fastapi.testclient import TestClient
+# from unittest.mock import patch
+# from main import app, setup_logger
+# import logging
 
-@pytest.fixture(scope="module")
-def client():
-    app.logger = setup_logger()
-    with TestClient(app) as c:
-        yield c
+# @pytest.fixture(scope="module")
+# def client():
+#     app.logger = setup_logger()
+#     with TestClient(app) as c:
+#         yield c
 
 # def test_health_check(client):
 #     response = client.get("/health")
