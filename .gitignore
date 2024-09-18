@@ -1,1 +1,4 @@
 postgres_data
+__pycache__
+.log
+.DS_Store
