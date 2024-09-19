@@ -1,5 +1,6 @@
-from fastapi import FastAPI, Depends, HTTPException, status, Request
+from fastapi import FastAPI, Depends, HTTPException, status, Request, Cookie, Response
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.responses import RedirectResponse, JSONResponse
 from urllib.parse import urlencode
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel, EmailStr, Field
@@ -16,7 +17,12 @@ import time
 import os
 import logging
 from authlib.integrations.starlette_client import OAuth, OAuthError
+import secrets
+from contextlib import asynccontextmanager
 
+
+# temporary storage for refresh tokens, use redis in production
+refresh_tokens = {}
 # Logger setup
 def setup_logger():
     logger = logging.getLogger("savvi-auth")
@@ -182,12 +188,13 @@ def seed_db(db):
     # Create tables
     Base.metadata.create_all(bind=engine)
 
-def create_access_token(data: dict, expires_delta: timedelta):
+def create_access_token(data: dict):
+    """
+    Create access token
+    """
+    expires_delta = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode = data.copy()
-    if expires_delta:
-        expire = datetime.now(timezone.utc) + expires_delta
-    else:
-        expire = datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    expire = datetime.now(timezone.utc) + expires_delta
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
@@ -293,9 +300,8 @@ async def auth_google_callback(request: Request, db: Session = Depends(get_db)):
                 db.refresh(db_user)
 
             # Create access token
-            access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
             access_token = create_access_token(
-                data={"sub": db_user.email}, expires_delta=access_token_expires
+                data={"sub": db_user.email}
             )
 
             return {"access_token": access_token, "token_type": "bearer"}
@@ -330,11 +336,68 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
             detail="Incorrect email or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
-        data={"sub": user.email}, expires_delta=access_token_expires
+        data={"sub": user.email}
     )
-    return {"access_token": access_token, "token_type": "bearer"}
+    # generate refresh token
+    refresh_token = secrets.token_urlsafe(32)
+    refresh_tokens[user.email] = refresh_token
+    response = JSONResponse(
+        content={
+            "access_token": access_token,
+            "token_type": "bearer"
+        }
+    )
+    response.set_cookie(
+        key="refresh_token", 
+        value=refresh_token,
+        httponly=True,
+        secure=True,
+        samesite="strict",
+        max_age=60 * 60 * 24 * 1, # 1 day
+    )
+    return response
+
+@app.post("/refresh")
+async def refresh_token(
+    request: Request,
+    refresh_token: str = Cookie(None)
+):
+    """
+    Refresh access token, for frontend only authentication
+    """
+    if refresh_token is None:
+        raise HTTPException(status_code=401, detail="Refresh token not provided")
+    user_email = None
+    for email, token in refresh_tokens.items():
+        if token == refresh_token:
+            user_email = email
+            break
+
+    if user_email is None:
+        raise HTTPException(status_code=401, detail="Invalid refresh token")
+
+    new_access_token = create_access_token(
+        data={"sub": user_email}
+    )
+    new_refresh_token = secrets.token_urlsafe(32)
+    refresh_tokens[user_email] = new_refresh_token
+    response = JSONResponse(
+        content={
+            "access_token": new_access_token,
+            "token_type": "bearer"
+        }
+    )
+
+    response.set_cookie(
+        key="refresh_token", 
+        value=refresh_token,
+        httponly=True,
+        secure=True,
+        samesite="strict",
+        max_age=60 * 60 * 24 * 1, # 1 day
+    )
+    return response
 
 @app.get("/users/me", response_model=UserResponse)
 async def read_users_me(current_user: User = Depends(get_current_active_user)):
