@@ -48,6 +48,12 @@ def setup_logger():
     return logger
 
 ENV = os.environ.get("ENV", "dev")
+# allow insecure cookies in dev, to allow localhost http 
+if ENV == "dev":
+    is_secure = False
+else:
+    is_secure = True
+
 
 # Google OAuth setup
 GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth"
@@ -112,7 +118,7 @@ def lifespan(app: FastAPI):
 
     if ENV == "dev":
         app.logger.info("Seeding database...")
-        seed_db(get_db())
+        seed_db(next(get_db()))
 
     yield
 
@@ -123,10 +129,6 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
-)
-app.add_middleware(
-    SessionMiddleware,
-    secret_key=SECRET_KEY,
 )
 
 # log request and response
@@ -182,11 +184,25 @@ class TokenData(BaseModel):
     # email: str | None = None
     email: str
 
-def seed_db(db):
+def seed_db(db: Session):
+    """
+    Seed database
+    """
     # Delete tables
     Base.metadata.drop_all(bind=engine)
     # Create tables
     Base.metadata.create_all(bind=engine)
+    # Create admin user
+    admin_user = User(
+        email="dev@savvi.com", 
+        first_name="dev", 
+        last_name="dev", 
+        hashed_password=get_password_hash("dev"), 
+        disabled=False
+    )
+    db.add(admin_user)
+    db.commit()
+    db.refresh(admin_user)
 
 def create_access_token(data: dict):
     """
@@ -352,8 +368,7 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
         key="refresh_token", 
         value=refresh_token,
         httponly=True,
-        secure=True,
-        samesite="strict",
+        secure=is_secure,
         max_age=60 * 60 * 24 * 1, # 1 day
     )
     return response
@@ -388,13 +403,11 @@ async def refresh_token(
             "token_type": "bearer"
         }
     )
-
     response.set_cookie(
         key="refresh_token", 
         value=refresh_token,
         httponly=True,
-        secure=True,
-        samesite="strict",
+        secure=is_secure,
         max_age=60 * 60 * 24 * 1, # 1 day
     )
     return response

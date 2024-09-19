@@ -30,7 +30,7 @@ docker-compose up --build
 # Notes
 ## Authentication Methodology
 This applications uses [JWT][jwt] for authentication. The JWT is signed using the SECRET_KEY environment variable.
-This jwt will be used by microservices to authenticate users and by a frontend to get the refresh token. The refresh token will be used to get a new access token when the current access token expires or the frontend is refreshed.
+This jwt will be used by microservices to authenticate users and by a frontend to get the [refresh token][refresh-token]. The refresh token will be used to get a new access token when the current access token expires or the frontend is refreshed.
 
 # Index
 - [Json Web Token (JWT)][jwt]: JWT is a compact, URL-safe means of representing claims to be transferred between two parties. It consists of three parts: header, payload, and signature.
@@ -46,4 +46,7 @@ This jwt will be used by microservices to authenticate users and by a frontend t
         - Used to verify that the sender of the JWT is who it says it is and to ensure the message wasn't changed along the way
     The final structure looks like this:
     `header.payload.signature`
-
+- Refresh Token[refresh-token]:
+    - Refresh token is a random string, in this case 32 characters.
+    - The refresh token is a long-lived token that is used to get a new access token when the current access token expires or the frontend is refreshed.
+    - The refresh token is stored in the frontend's http-only cookies and is used to get a new access token when the current access token expires or the frontend is refreshed.
