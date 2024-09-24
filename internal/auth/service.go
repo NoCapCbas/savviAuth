@@ -8,30 +8,34 @@ import (
 	"github.com/google/uuid"
 )
 
-var (
-	accessTokenKey  = []byte("ACCESS_TOKEN_SECRET_KEY")
-	refreshTokenKey = []byte("REFRESH_TOKEN_SECRET_KEY")
-)
+type authService struct {
+	repo AuthRepository
+}
 
-type Claims struct {
+// AccessClaims struct
+type AccessClaims struct {
 	UserID string `json:"user_id"`
 	jwt.StandardClaims
 }
 
-type TokenPair struct {
-	AccessToken  string `json:"access_token"`
-	RefreshToken string `json:"refresh_token"`
+// RefreshClaims struct
+type RefreshClaims struct {
+	AccessToken string `json:"access_token"`
+	jwt.StandardClaims
 }
 
-func GenerateTokenPair(userID string) (*TokenPair, error) {
-	// Generate access token
-	accessToken, err := generateToken(userID, accessTokenKey, 15*time.Minute)
+func (s *authService) GenerateTokenPair(userID string) (*TokenPair, error) {
+	// Generate access token, uses userID as identifier
+	// this allows for easy access to user requested resources
+	accessToken, err := generateToken(userID, accessTokenKey, 30*time.Minute)
 	if err != nil {
 		return nil, err
 	}
 
-	// Generate refresh token
-	refreshToken, err := generateToken(userID, refreshTokenKey, 1*24*time.Hour)
+	// Generate refresh token, uses access token as identifier
+	// this allows for easy token refresh, by validating the access token
+	// and then generating a new pair
+	refreshToken, err := generateToken(accessToken, refreshTokenKey, 1*24*time.Hour)
 	if err != nil {
 		return nil, err
 	}
@@ -42,10 +46,10 @@ func GenerateTokenPair(userID string) (*TokenPair, error) {
 	}, nil
 }
 
-func generateToken(userID string, key []byte, expiration time.Duration) (string, error) {
+func generateToken(identifier string, key []byte, expiration time.Duration) (string, error) {
 	expirationTime := time.Now().Add(expiration)
-	claims := &Claims{
-		UserID: userID,
+	claims := &AccessClaims{
+		Identifier: identifier,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
 			IssuedAt:  time.Now().Unix(),
@@ -57,11 +61,11 @@ func generateToken(userID string, key []byte, expiration time.Duration) (string,
 	return token.SignedString(key)
 }
 
-func ValidateAccessToken(tokenString string) (*Claims, error) {
+func (s *authService) ValidateAccessToken(tokenString string) (*Claims, error) {
 	return validateToken(tokenString, accessTokenKey)
 }
 
-func ValidateRefreshToken(tokenString string) (*Claims, error) {
+func validateRefreshToken(tokenString string) (*Claims, error) {
 	return validateToken(tokenString, refreshTokenKey)
 }
 
@@ -82,8 +86,8 @@ func validateToken(tokenString string, key []byte) (*Claims, error) {
 	return claims, nil
 }
 
-func RefreshTokens(refreshToken string) (*TokenPair, error) {
-	claims, err := ValidateRefreshToken(refreshToken)
+func (s *authService) RefreshTokenPair(refreshToken string) (*TokenPair, error) {
+	claims, err := validateRefreshToken(refreshToken)
 	if err != nil {
 		return nil, err
 	}

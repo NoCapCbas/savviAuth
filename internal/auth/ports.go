@@ -2,7 +2,6 @@ package auth
 
 import (
 	"os"
-	"time"
 )
 
 var (
@@ -12,16 +11,18 @@ var (
 
 // TokenPair data model
 type TokenPair struct {
-	AccessToken  string    `json:"access_token"`
-	RefreshToken string    `json:"refresh_token"`
-	ExpiresAt    time.Time `json:"expires_at"`
+	AccessToken  string `json:"access_token"`
+	RefreshToken string `json:"refresh_token"`
 }
 
 // TokenService interface
 type TokenService interface {
+	// GenerateTokenPair generates a new access and refresh token pair
 	GenerateTokenPair(userID string) (*TokenPair, error)
+	// ValidateAccessToken validates an access token
 	ValidateAccessToken(tokenString string) (string, error)
-	ValidateRefreshToken(tokenString string) (string, error)
+	// RefreshTokenPair refreshes a token pair, uses GenerateTokenPair Action internally
+	RefreshTokenPair(refreshToken string) (*TokenPair, error)
 }
 
 // No Token Repository,
