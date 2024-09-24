@@ -2,14 +2,14 @@
 
 # Start the development environment
 dev:
-	docker-compose -f docker-compose.dev.yml up --build -d --force-recreate
+	docker-compose --env-file .env.dev -f docker-compose.dev.yml up --build -d --force-recreate
 
 test:
 	docker-compose -f docker-compose.dev.yml exec auth_app python -m pytest
 
 # Start the production environment
 prod:
-	docker-compose -f docker-compose.prod.yml up --build -d --force-recreate
+	docker-compose --env-file .env.prod -f docker-compose.prod.yml up --build -d --force-recreate
 
 .PHONY: dev prod
 

@@ -3,9 +3,9 @@ services:
   db:
     image: postgres:16
     environment:
-      POSTGRES_USER: ${DB_USER:-dev}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-dev}
-      POSTGRES_DB: ${DB_NAME:-auth}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
     volumes:
       - ./postgres_data:/var/lib/postgresql/data
 
@@ -17,9 +17,25 @@ services:
       - .env.prod
       - .env.dev # second because it overrides the first
     ports:
-      - "8000:8000"
+      - "${AUTH_PORT}:8080"
     volumes:
       - .:/app
     depends_on:
       - db
 
+  web:
+    build:
+      context: .
+      dockerfile: ./web/dockerfile.dev
+    env_file:
+      - .env.dev 
+    ports:
+      - "${WEB_PORT}:3000"
+    environment:
+      - CHOKIDAR_USEPOLLING=true # Enable polling to support hot reloading
+    volumes:
+      - ./web:/web:delegated
+      - /web/node_modules
+    depends_on:
+      - auth_app
+      - db

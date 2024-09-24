@@ -1,21 +1,29 @@
-# Use an official Python runtime as a parent image
-FROM python:3.9-slim
+# Use the official Golang image as the base image
+FROM golang:1.22-alpine AS builder
 
-# Set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-
-# Set the working directory in the container
+# Set the working directory
 WORKDIR /app
 
-# Copy only the requirements file first to leverage Docker cache
-COPY requirements.txt .
+# Copy go mod file
+COPY go.mod go.sum ./
 
-# Install production dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# Download all dependencies
+RUN go mod download
 
-# Copy the rest of the application code
-COPY . /app
+# Copy the source code
+COPY . .
 
-# Run the application
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Build the application
+RUN go build -o main ./cmd
+
+# Use a minimal alpine image for the final stage
+FROM alpine:3.14
+
+# Set the working directory
+WORKDIR /root/
+
+# Copy the binary from the builder stage
+COPY --from=builder /app/main .
+
+# Run the binary
+CMD ["./main"]

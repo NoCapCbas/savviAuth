@@ -102,7 +102,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "dev")
 if not SECRET_KEY:
     raise ValueError("SECRET_KEY is not set")
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+ACCESS_TOKEN_EXPIRE_MINUTES = 5
 
 # Password hashing
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -206,7 +206,7 @@ def seed_db(db: Session):
 
 def create_access_token(data: dict):
     """
-    Create access token
+    Create access token, used by client to authenticate
     """
     expires_delta = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode = data.copy()
@@ -230,9 +230,9 @@ def authenticate_user(db: Session, email: str, password: str):
         return False
     return user
 
-async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+async def get_user_from_access_token(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     """
-    Get current user
+    Get user from access token
     """
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
@@ -244,7 +244,9 @@ async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = De
         email: str = payload.get("sub")
         if email is None:
             raise credentials_exception
-
+        exp = payload.get("exp")
+        if exp is None or exp < time.time():
+            raise credentials_exception
         token_data = TokenData(email=email)
     except JWTError:
         raise credentials_exception
@@ -253,7 +255,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = De
         raise credentials_exception
     return user
 
-async def get_current_active_user(current_user: User = Depends(get_current_user)):
+async def get_current_active_user(current_user: User = Depends(get_user_from_access_token)):
     """
     Get current active user
     """
@@ -274,7 +276,7 @@ async def login_google(request: Request):
     url = f"{GOOGLE_AUTH_URL}?{urlencode(params)}"
     return RedirectResponse(url)
 
-@app.get('/auth/google/callback')
+@app.get('/callback/google')
 async def auth_google_callback(request: Request, db: Session = Depends(get_db)):
     """
     Google OAuth callback
@@ -341,9 +343,9 @@ async def register(user: UserRegistration, db: Session = Depends(get_db)):
     return new_user
 
 @app.post("/token", response_model=Token)
-async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+async def generate_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     """
-    Login for access token
+    Generate access token using email and password, initial login
     """
     user = authenticate_user(db, form_data.username, form_data.password)
     if not user:
@@ -379,7 +381,8 @@ async def refresh_token(
     refresh_token: str = Cookie(None)
 ):
     """
-    Refresh access token, for frontend only authentication
+    Refresh access token, 
+    used by client to generate new access token when access token expires
     """
     if refresh_token is None:
         raise HTTPException(status_code=401, detail="Refresh token not provided")
@@ -412,10 +415,11 @@ async def refresh_token(
     )
     return response
 
-@app.get("/users/me", response_model=UserResponse)
-async def read_users_me(current_user: User = Depends(get_current_active_user)):
+@app.get("/verify", response_model=UserResponse)
+async def verify_access_token(current_user: User = Depends(get_current_active_user)):
     """
-    Get current user
+    Verify access token, 
+    return user details
     """
     return current_user
 
