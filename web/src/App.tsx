@@ -9,7 +9,7 @@ function ProtectedRoute({ children }: { children: JSX.Element }) {
 }
 
 function HomePage() {
-  return <h2 className="text-2xl font-bold">Home Page - Protected</h2>;
+  return <h2 className="text-2xl font-bold text-black">Home Page - Protected</h2>;
 }
 
 function App() {
