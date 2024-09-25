@@ -67,6 +67,10 @@ func (s *userService) GetUser(id uuid.UUID) (*User, error) {
 	return s.repo.GetByID(id)
 }
 
+func (s *userService) GetUserByEmail(email string) (*User, error) {
+	return s.repo.GetByEmail(email)
+}
+
 func (s *userService) UpdateUser(user *User) error {
 	user.UpdatedAt = time.Now()
 	return s.repo.Update(user)

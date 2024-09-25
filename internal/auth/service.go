@@ -1,4 +1,4 @@
-package domains
+package auth
 
 import (
 	"errors"
@@ -9,25 +9,26 @@ import (
 )
 
 type authService struct {
-	repo AuthRepository
+	accessTokenKey  []byte
+	refreshTokenKey []byte
 }
 
-// AccessClaims struct
+// AccessClaims struct, user_id used as identifier
 type AccessClaims struct {
-	UserID string `json:"user_id"`
+	Identifier string `json:"user_id"`
 	jwt.StandardClaims
 }
 
-// RefreshClaims struct
+// RefreshClaims struct, access_token used as identifier
 type RefreshClaims struct {
-	AccessToken string `json:"access_token"`
+	Identifier string `json:"access_token"`
 	jwt.StandardClaims
 }
 
 func (s *authService) GenerateTokenPair(userID string) (*TokenPair, error) {
 	// Generate access token, uses userID as identifier
 	// this allows for easy access to user requested resources
-	accessToken, err := generateToken(userID, accessTokenKey, 30*time.Minute)
+	accessToken, err := generateToken(userID, accessTokenKey, 30*time.Minute, "access")
 	if err != nil {
 		return nil, err
 	}
@@ -35,7 +36,7 @@ func (s *authService) GenerateTokenPair(userID string) (*TokenPair, error) {
 	// Generate refresh token, uses access token as identifier
 	// this allows for easy token refresh, by validating the access token
 	// and then generating a new pair
-	refreshToken, err := generateToken(accessToken, refreshTokenKey, 1*24*time.Hour)
+	refreshToken, err := generateToken(accessToken, refreshTokenKey, 1*24*time.Hour, "refresh")
 	if err != nil {
 		return nil, err
 	}
@@ -46,14 +47,24 @@ func (s *authService) GenerateTokenPair(userID string) (*TokenPair, error) {
 	}, nil
 }
 
-func generateToken(identifier string, key []byte, expiration time.Duration) (string, error) {
+func generateToken(identifier string, key []byte, expiration time.Duration, claimType string) (string, error) {
 	expirationTime := time.Now().Add(expiration)
-	claims := &AccessClaims{
-		Identifier: identifier,
-		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: expirationTime.Unix(),
-			IssuedAt:  time.Now().Unix(),
-			Id:        uuid.New().String(),
+	var claims interface{}
+	if claimType == "access" {
+		claims = &AccessClaims{
+			StandardClaims: jwt.StandardClaims{
+				ExpiresAt: expirationTime.Unix(),
+				IssuedAt:  time.Now().Unix(),
+				Id:        uuid.New().String(),
+			},
+		}
+	} else if claimType == "refresh" {
+		claims = &RefreshClaims{
+			Identifier: identifier,
+			StandardClaims: jwt.StandardClaims{
+				ExpiresAt: expirationTime.Unix(),
+				IssuedAt:  time.Now().Unix(),
+				Id:        uuid.New().String(),
 		},
 	}
 
@@ -61,16 +72,33 @@ func generateToken(identifier string, key []byte, expiration time.Duration) (str
 	return token.SignedString(key)
 }
 
-func (s *authService) ValidateAccessToken(tokenString string) (*Claims, error) {
-	return validateToken(tokenString, accessTokenKey)
+func (s *authService) ValidateAccessToken(tokenString string) (*AccessClaims, error) {
+	claims, err := validateToken(tokenString, s.accessTokenKey, "access")
+	})
+	if err != nil {
+		return nil, err
+	}
+	if !token.Valid {
+		return nil, errors.New("invalid token")
+	}
+	return claims.(*AccessClaims), nil
 }
 
-func validateRefreshToken(tokenString string) (*Claims, error) {
-	return validateToken(tokenString, refreshTokenKey)
+func (s *authService) ValidateRefreshToken(tokenString string) (*RefreshClaims, error) {
+	claims, err := validateToken(tokenString, s.refreshTokenKey, "refresh")
+	if err != nil {
+		return nil, err
+	}
+	return claims.(*RefreshClaims), nil
 }
 
-func validateToken(tokenString string, key []byte) (*Claims, error) {
-	claims := &Claims{}
+func validateToken(tokenString string, key []byte, tokenType string) (jwt.Claims, error) {
+	var claims jwt.Claims
+	if tokenType == "access" {
+		claims = &AccessClaims{}
+	} else if tokenType == "refresh" {
+		claims = &RefreshClaims{}
+	}
 	token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
 		return key, nil
 	})

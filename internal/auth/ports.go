@@ -15,15 +15,18 @@ type TokenPair struct {
 	RefreshToken string `json:"refresh_token"`
 }
 
-// TokenService interface
-type TokenService interface {
+// AuthService interface
+type AuthService interface {
 	// GenerateTokenPair generates a new access and refresh token pair
 	GenerateTokenPair(userID string) (*TokenPair, error)
 	// ValidateAccessToken validates an access token
-	ValidateAccessToken(tokenString string) (string, error)
+	ValidateAccessToken(tokenString string) (*AccessClaims, error)
 	// RefreshTokenPair refreshes a token pair, uses GenerateTokenPair Action internally
 	RefreshTokenPair(refreshToken string) (*TokenPair, error)
 }
 
 // No Token Repository,
 // token will be self sufficient
+type AuthHandler struct {
+	AuthService AuthService
+}

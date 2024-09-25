@@ -9,10 +9,12 @@ import (
 
 	"savviAuth/internal/auth"
 	"savviAuth/internal/common"
+	"savviAuth/internal/users"
 )
 
 type AuthHandler struct {
 	AuthService auth.AuthService
+	UserService users.UserService
 }
 
 func NewAuthHandler(authService auth.AuthService) *AuthHandler {
@@ -46,8 +48,9 @@ func (h *AuthHandler) LoginGoogle(w http.ResponseWriter, r *http.Request) {
 	params.Add("access_type", "offline")
 	params.Add("prompt", "consent")
 
+	// Redirect to Google for authentication
 	url := fmt.Sprintf("%s?%s", os.Getenv("GOOGLE_AUTH_URL"), params.Encode())
-
+	http.Redirect(w, r, url, http.StatusTemporaryRedirect)
 }
 
 func (h *AuthHandler) CallbackGoogle(w http.ResponseWriter, r *http.Request) {
@@ -97,6 +100,7 @@ func (h *AuthHandler) CallbackGoogle(w http.ResponseWriter, r *http.Request) {
 	}
 
 	userInfo := make(map[string]interface{})
+	fmt.Println("userInfoResponse", userInfoResponse)
 	err = json.NewDecoder(userInfoResponse.Body).Decode(&userInfo)
 	if err != nil {
 		http.Error(w, "Failed to decode user info from Google", http.StatusBadRequest)
@@ -109,18 +113,19 @@ func (h *AuthHandler) CallbackGoogle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	dbUser, err := h.AuthService.GetUserByEmail(email)
+	dbUser, err := h.UserService.GetUserByEmail(email)
 	if err != nil {
 		http.Error(w, "User not found", http.StatusNotFound)
 		return
 	}
-
-	accessToken, err := h.AuthService.GenerateTokenPair(dbUser.ID)
+	// convert uuid to string
+	dbUserID := dbUser.ID.String()
+	tokenPair, err := h.AuthService.GenerateTokenPair(dbUserID)
 	if err != nil {
 		http.Error(w, "Failed to create access token", http.StatusInternalServerError)
 		return
 	}
 
-	common.JSONResponse(w, http.StatusOK, map[string]string{"access_token": accessToken})
+	common.JSONResponse(w, http.StatusOK, map[string]string{"access_token": tokenPair.AccessToken})
 
 }
