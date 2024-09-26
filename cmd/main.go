@@ -6,8 +6,9 @@ import (
 	"log"
 	"net/http"
 	"os"
-	userHttp "savviAuth/internal/adapters/http"
+	savviHttp "savviAuth/internal/adapters/http"
 	"savviAuth/internal/adapters/postgres"
+	"savviAuth/internal/auth"
 	"savviAuth/internal/common/ports/database"
 	"savviAuth/internal/users"
 )
@@ -40,6 +41,8 @@ func main() {
 
 	// init user service
 	userService := users.NewUserService(userRepo)
+	// init auth service
+	authService := auth.NewAuthService()
 
 	if env == "dev" {
 		log.Println("Running in dev mode")
@@ -56,9 +59,13 @@ func main() {
 		fmt.Fprintf(w, "OK")
 	})
 
-	// pass user service to handlers
-	userHandler := userHttp.NewUserHandler(userService)
+	// pass user service to handler
+	userHandler := savviHttp.NewUserHandler(userService)
 	userHandler.RegisterRoutes()
+
+	// pass auth service to handler
+	authHandler := savviHttp.NewAuthHandler(authService)
+	authHandler.RegisterRoutes()
 
 	// start server
 	log.Println("Server is running on port 8080")

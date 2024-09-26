@@ -2,6 +2,7 @@ package auth
 
 import (
 	"errors"
+	"os"
 	"time"
 
 	"github.com/golang-jwt/jwt"
@@ -25,10 +26,17 @@ type RefreshClaims struct {
 	jwt.StandardClaims
 }
 
+func NewAuthService() AuthService {
+	return &authService{
+		accessTokenKey:  []byte(os.Getenv("ACCESS_TOKEN_KEY")),
+		refreshTokenKey: []byte(os.Getenv("REFRESH_TOKEN_KEY")),
+	}
+}
+
 func (s *authService) GenerateTokenPair(userID string) (*TokenPair, error) {
 	// Generate access token, uses userID as identifier
 	// this allows for easy access to user requested resources
-	accessToken, err := generateToken(userID, accessTokenKey, 30*time.Minute, "access")
+	accessToken, err := generateToken(userID, s.accessTokenKey, 30*time.Minute, "access")
 	if err != nil {
 		return nil, err
 	}
@@ -36,7 +44,7 @@ func (s *authService) GenerateTokenPair(userID string) (*TokenPair, error) {
 	// Generate refresh token, uses access token as identifier
 	// this allows for easy token refresh, by validating the access token
 	// and then generating a new pair
-	refreshToken, err := generateToken(accessToken, refreshTokenKey, 1*24*time.Hour, "refresh")
+	refreshToken, err := generateToken(accessToken, s.refreshTokenKey, 24*time.Hour, "refresh")
 	if err != nil {
 		return nil, err
 	}
@@ -49,7 +57,7 @@ func (s *authService) GenerateTokenPair(userID string) (*TokenPair, error) {
 
 func generateToken(identifier string, key []byte, expiration time.Duration, claimType string) (string, error) {
 	expirationTime := time.Now().Add(expiration)
-	var claims interface{}
+	var claims jwt.Claims
 	if claimType == "access" {
 		claims = &AccessClaims{
 			StandardClaims: jwt.StandardClaims{
@@ -65,7 +73,8 @@ func generateToken(identifier string, key []byte, expiration time.Duration, clai
 				ExpiresAt: expirationTime.Unix(),
 				IssuedAt:  time.Now().Unix(),
 				Id:        uuid.New().String(),
-		},
+			},
+		}
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
@@ -74,13 +83,10 @@ func generateToken(identifier string, key []byte, expiration time.Duration, clai
 
 func (s *authService) ValidateAccessToken(tokenString string) (*AccessClaims, error) {
 	claims, err := validateToken(tokenString, s.accessTokenKey, "access")
-	})
 	if err != nil {
 		return nil, err
 	}
-	if !token.Valid {
-		return nil, errors.New("invalid token")
-	}
+
 	return claims.(*AccessClaims), nil
 }
 
@@ -112,13 +118,4 @@ func validateToken(tokenString string, key []byte, tokenType string) (jwt.Claims
 	}
 
 	return claims, nil
-}
-
-func (s *authService) RefreshTokenPair(refreshToken string) (*TokenPair, error) {
-	claims, err := validateRefreshToken(refreshToken)
-	if err != nil {
-		return nil, err
-	}
-
-	return GenerateTokenPair(claims.UserID)
 }

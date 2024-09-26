@@ -3,6 +3,7 @@ package http
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"net/url"
 	"os"
@@ -40,6 +41,7 @@ func (h *AuthHandler) LoginGoogle(w http.ResponseWriter, r *http.Request) {
 	/*
 		Google OAuth login
 	*/
+	log.Println("Login using Google...")
 	params := url.Values{}
 	params.Add("client_id", os.Getenv("GOOGLE_CLIENT_ID"))
 	params.Add("response_type", "code")
@@ -57,6 +59,7 @@ func (h *AuthHandler) CallbackGoogle(w http.ResponseWriter, r *http.Request) {
 	/*
 		Google OAuth callback
 	*/
+	log.Println("Callback Google...")
 	code := r.URL.Query().Get("code")
 	if code == "" {
 		http.Error(w, "Code not provided by Google", http.StatusBadRequest)
@@ -125,6 +128,7 @@ func (h *AuthHandler) CallbackGoogle(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Failed to create access token", http.StatusInternalServerError)
 		return
 	}
+	log.Println("User", dbUser.Email, "logged in")
 
 	common.JSONResponse(w, http.StatusOK, map[string]string{"access_token": tokenPair.AccessToken})
 

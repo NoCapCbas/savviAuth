@@ -1,14 +1,5 @@
 package auth
 
-import (
-	"os"
-)
-
-var (
-	accessTokenKey  = []byte(os.Getenv("ACCESS_TOKEN_SECRET_KEY"))
-	refreshTokenKey = []byte(os.Getenv("REFRESH_TOKEN_SECRET_KEY"))
-)
-
 // TokenPair data model
 type TokenPair struct {
 	AccessToken  string `json:"access_token"`
@@ -21,8 +12,8 @@ type AuthService interface {
 	GenerateTokenPair(userID string) (*TokenPair, error)
 	// ValidateAccessToken validates an access token
 	ValidateAccessToken(tokenString string) (*AccessClaims, error)
-	// RefreshTokenPair refreshes a token pair, uses GenerateTokenPair Action internally
-	RefreshTokenPair(refreshToken string) (*TokenPair, error)
+	// ValidateRefreshToken validates a refresh token
+	ValidateRefreshToken(tokenString string) (*RefreshClaims, error)
 }
 
 // No Token Repository,
